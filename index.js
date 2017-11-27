@@ -1,7 +1,6 @@
 const Command = require('command'),
 Long = require("long"),
 DATAPATH = __dirname+'\\data.json',
-DEBUG = false
 
 module.exports = function appearanceCopyPaster(dispatch) {
     const command = Command(dispatch)
@@ -21,10 +20,7 @@ module.exports = function appearanceCopyPaster(dispatch) {
             case 'apply': {
                    let data = JSON.parse(fs.readFileSync(DATAPATH, 'utf8'))
                     dispatch.hookOnce('C_CREATE_USER',1, event => {
-                        if(DEBUG) console.log('[Appearance CopyPaster] Loaded object:', data)
-                        if(DEBUG) console.log('[Appearance CopyPaster] Data from packet::', event.race, event.gender, event.class)
                         if(event.race == data.race && event.class == data.job && event.gender == data.gender ) {
-                            if(DEBUG) console.log('Characters basic data matched. Injected...')
                             event.details = Buffer.from(data.details) 
                             event.appearance = new Long(data.app.low, data.app.high, data.app.unsigned)
                             return true
@@ -46,9 +42,7 @@ module.exports = function appearanceCopyPaster(dispatch) {
 
         sLoginData.app = event.appearance
         sLoginData.details = Buffer.from(event.details)
-
-        if(DEBUG) console.log('[Appearance CopyPaster] S_LOGIN Object:', sLoginData)
-	})
+    })
 
     function GetCharacterInfo(model)
     {
