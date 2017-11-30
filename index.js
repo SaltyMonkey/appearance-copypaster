@@ -1,6 +1,6 @@
 const Command = require('command'),
 Long = require("long"),
-DATAPATH = __dirname+'\\data.json',
+DATAPATH = __dirname+'\\data.json'
 
 module.exports = function appearanceCopyPaster(dispatch) {
     const command = Command(dispatch)
@@ -20,7 +20,7 @@ module.exports = function appearanceCopyPaster(dispatch) {
             case 'apply': {
                    let data = JSON.parse(fs.readFileSync(DATAPATH, 'utf8'))
                     dispatch.hookOnce('C_CREATE_USER',1, event => {
-                        if(event.race == data.race && event.class == data.job && event.gender == data.gender ) {
+                        if(event.race == data.race && event.gender == data.gender ) {
                             event.details = Buffer.from(data.details) 
                             event.appearance = new Long(data.app.low, data.app.high, data.app.unsigned)
                             return true
